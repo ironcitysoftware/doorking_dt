@@ -99,12 +99,14 @@ public class EntryAdapter {
     addDeviceNumberFromColumn(COLUMN_DEVICE_NUMBER5, row, builder);
     addDeviceNumberFromColumn(COLUMN_DEVICE_NUMBER6, row, builder);
 
-    List<String> phoneNumberComponents = splitPhoneNumber(
-        row.get(COLUMN_PHONE_NUMBER));
-    if (!phoneNumberComponents.get(0).equals(config.getLocalPhonePrefix())) {
-      builder.setAreaCode(phoneNumberComponents.get(0));
+    if (row.size() - 1 >= COLUMN_PHONE_NUMBER) {
+      List<String> phoneNumberComponents = splitPhoneNumber(
+          row.get(COLUMN_PHONE_NUMBER));
+      if (!phoneNumberComponents.get(0).equals(config.getLocalPhonePrefix())) {
+        builder.setAreaCode(phoneNumberComponents.get(0));
+      }
+      builder.setPhoneNumber(phoneNumberComponents.get(1));
     }
-    builder.setPhoneNumber(phoneNumberComponents.get(1));
 
     EntryCode permanentEntryCode = entryCodes.lookupAndRemoveResidentCode(key,
         EntryCodeType.PERMANENT);
@@ -209,8 +211,10 @@ public class EntryAdapter {
 
   private int getDirectoryNumber(Object obj) {
     String text = (String) obj;
-    Preconditions.checkState(text.startsWith("#"));
-    return Integer.parseInt(text.substring(1));
+    if (text.startsWith("#")) {
+      text = text.substring(1);
+    }
+    return Integer.parseInt(text);
   }
 
   private List<String> splitPhoneNumber(Object obj) {

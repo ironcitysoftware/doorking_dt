@@ -24,4 +24,5 @@ CLASSPATH=$CLASSPATH:lib/javax.servlet-api-4.0.1.jar
 
 java \
   -cp $CLASSPATH \
-  doorking.Sync
+  doorking.Sync \
+  $@

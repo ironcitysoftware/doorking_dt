@@ -36,13 +36,14 @@ import doorking.Proto.Config;
 /** Generates a CSV file for import into DoorKing Account Manager. */
 public class Sync {
   public static void main(String args[]) throws Exception {
-    new Sync().run();
+    new Sync().run(args);
   }
 
   private static final String OUTPUT_FILE = "/tmp/doorking.csv";
 
-  public void run() throws Exception {
-    Config config = readConfig();
+  public void run(String args[]) throws Exception {
+    Path configPath = args.length == 0 ? getDefaultConfigPath() : Path.of(args[0]);
+    Config config = readConfig(configPath);
     Result result = new GoogleRetriever(config).retrieve();
 
     DeletedEntryCodeAdapter deletedEntryCodeAdapter = new DeletedEntryCodeAdapter(result.deletedCodes);
@@ -62,12 +63,15 @@ public class Sync {
     System.err.println("Wrote " + OUTPUT_FILE);
   }
 
-  public static Config readConfig() throws Exception {
-    Path proto = Paths.get(System.getProperty("user.home"), ".doorking");
-    System.err.println("Reading configuration from " + proto);
+  private static Path getDefaultConfigPath() {
+    return Paths.get(System.getProperty("user.home"), ".doorking");
+  }
+
+  public static Config readConfig(Path configProto) throws Exception {
+    System.err.println("Reading configuration from " + configProto);
     Config.Builder config = Config.newBuilder();
     TextFormat.getParser().merge(
-        String.join(System.lineSeparator(), Files.readAllLines(proto)),
+        String.join(System.lineSeparator(), Files.readAllLines(configProto)),
         config);
     return config.build();
   }

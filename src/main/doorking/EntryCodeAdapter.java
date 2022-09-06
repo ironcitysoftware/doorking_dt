@@ -113,9 +113,14 @@ public class EntryCodeAdapter {
       Preconditions.checkState(!deletedCodes.contains(codeDigits),
           String.format("Code %04d is present on the deleted entry codes tab",
               codeDigits));
-      String codeType = (String) row.get(COLUMN_ENTRY_CODE_TYPE);
-      EntryCode entryCode = new EntryCode(codeDigits,
-          EntryCodeType.valueOf(codeType.toUpperCase()));
+      EntryCodeType entryCodeType;
+      if (row.size() - 1 < COLUMN_ENTRY_CODE_TYPE) {
+        entryCodeType = EntryCodeType.PERMANENT;
+      } else {
+        String codeType = (String) row.get(COLUMN_ENTRY_CODE_TYPE);
+        entryCodeType = EntryCodeType.valueOf(codeType.toUpperCase());
+      }
+      EntryCode entryCode = new EntryCode(codeDigits, entryCodeType);
 
       String street = (String) row.get(COLUMN_STREET);
       if (street == null || street.isEmpty()) {
