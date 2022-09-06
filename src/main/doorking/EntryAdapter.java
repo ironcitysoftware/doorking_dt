@@ -80,9 +80,11 @@ public class EntryAdapter {
     int key = Objects.hash(row.get(COLUMN_STREET), row.get(COLUMN_HOUSE_NUMBER));
 
     Entry.Builder builder = Entry.newBuilder();
-    String notes = String.format("%s %s", row.get(COLUMN_HOUSE_NUMBER),
-        row.get(COLUMN_STREET));
-    builder.setNotes(notes);
+    String notes = null;
+    if (config.getWriteNotes()) {
+      notes = String.format("%s %s", row.get(COLUMN_HOUSE_NUMBER), row.get(COLUMN_STREET));
+      builder.setNotes(notes);
+    }
     String directoryName = (String) row.get(COLUMN_DISPLAY_NAME);
     if (directoryName.isEmpty()) {
       return ImmutableList.of();
@@ -106,6 +108,11 @@ public class EntryAdapter {
         builder.setAreaCode(phoneNumberComponents.get(0));
       }
       builder.setPhoneNumber(phoneNumberComponents.get(1));
+    }
+
+    if (config.getWriteFEr()) {
+      builder.setFloor("");
+      builder.setER("1");
     }
 
     EntryCode permanentEntryCode = entryCodes.lookupAndRemoveResidentCode(key,
@@ -132,7 +139,9 @@ public class EntryAdapter {
       builder.setDirectoryDisplayName(directoryName + " " + suffix++);
       builder.setEntryCode(permanentEntryCode.code);
       builder.setSecurityLevel(securityLevelMap.get(permanentEntryCode.type));
-      builder.setNotes(notes + " permanent");
+      if (config.getWriteNotes()) {
+        builder.setNotes(notes + " permanent");
+      }
       builder.markHidden();
       result.add(builder.build());
     }
@@ -149,7 +158,9 @@ public class EntryAdapter {
       builder.setDirectoryDisplayName(directoryName + " " + suffix++);
       builder.setEntryCode(limitedEntryCode.code);
       builder.setSecurityLevel(securityLevelMap.get(limitedEntryCode.type));
-      builder.setNotes(notes + " limited");
+      if (config.getWriteNotes()) {
+        builder.setNotes(notes + " limited");
+      }
       builder.markHidden();
       result.add(builder.build());
     }
@@ -166,7 +177,9 @@ public class EntryAdapter {
       builder.setDirectoryDisplayName(directoryName + " " + suffix++);
       builder.setEntryCode(deliveryEntryCode.code);
       builder.setSecurityLevel(securityLevelMap.get(deliveryEntryCode.type));
-      builder.setNotes(notes + " delivery");
+      if (config.getWriteNotes()) {
+        builder.setNotes(notes + " delivery");
+      }
       builder.markHidden();
       result.add(builder.build());
     }

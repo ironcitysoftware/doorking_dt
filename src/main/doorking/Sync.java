@@ -56,7 +56,9 @@ public class Sync {
     List<Entry> entries = adapter.adapt();
 
     List<String> lines = new ArrayList<>();
-    lines.add("ACCOUNT," + Entry.getHeaders());
+    lines.add("ACCOUNT," + (config.getWriteDevices()
+        ? Entry.getHeadersWithDevices()
+        : Entry.getHeadersWithoutDevices()));
     entries.forEach(entry -> lines.add(config.getAccountName() + "," + entry));
     Files.write(Paths.get(OUTPUT_FILE), lines, StandardCharsets.UTF_8);
 

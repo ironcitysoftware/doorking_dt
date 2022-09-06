@@ -189,6 +189,33 @@ public final class Proto {
      */
     com.google.protobuf.ByteString
         getAccountNameBytes();
+
+    /**
+     * <code>optional bool write_devices = 13;</code>
+     */
+    boolean hasWriteDevices();
+    /**
+     * <code>optional bool write_devices = 13;</code>
+     */
+    boolean getWriteDevices();
+
+    /**
+     * <code>optional bool write_notes = 14;</code>
+     */
+    boolean hasWriteNotes();
+    /**
+     * <code>optional bool write_notes = 14;</code>
+     */
+    boolean getWriteNotes();
+
+    /**
+     * <code>optional bool write_f_er = 15;</code>
+     */
+    boolean hasWriteFEr();
+    /**
+     * <code>optional bool write_f_er = 15;</code>
+     */
+    boolean getWriteFEr();
   }
   /**
    * Protobuf type {@code doorking.Config}
@@ -314,6 +341,21 @@ public final class Proto {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000100;
               deletedEntryCodeRange_ = bs;
+              break;
+            }
+            case 104: {
+              bitField0_ |= 0x00000800;
+              writeDevices_ = input.readBool();
+              break;
+            }
+            case 112: {
+              bitField0_ |= 0x00001000;
+              writeNotes_ = input.readBool();
+              break;
+            }
+            case 120: {
+              bitField0_ |= 0x00002000;
+              writeFEr_ = input.readBool();
               break;
             }
           }
@@ -856,6 +898,51 @@ public final class Proto {
       }
     }
 
+    public static final int WRITE_DEVICES_FIELD_NUMBER = 13;
+    private boolean writeDevices_;
+    /**
+     * <code>optional bool write_devices = 13;</code>
+     */
+    public boolean hasWriteDevices() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    /**
+     * <code>optional bool write_devices = 13;</code>
+     */
+    public boolean getWriteDevices() {
+      return writeDevices_;
+    }
+
+    public static final int WRITE_NOTES_FIELD_NUMBER = 14;
+    private boolean writeNotes_;
+    /**
+     * <code>optional bool write_notes = 14;</code>
+     */
+    public boolean hasWriteNotes() {
+      return ((bitField0_ & 0x00001000) == 0x00001000);
+    }
+    /**
+     * <code>optional bool write_notes = 14;</code>
+     */
+    public boolean getWriteNotes() {
+      return writeNotes_;
+    }
+
+    public static final int WRITE_F_ER_FIELD_NUMBER = 15;
+    private boolean writeFEr_;
+    /**
+     * <code>optional bool write_f_er = 15;</code>
+     */
+    public boolean hasWriteFEr() {
+      return ((bitField0_ & 0x00002000) == 0x00002000);
+    }
+    /**
+     * <code>optional bool write_f_er = 15;</code>
+     */
+    public boolean getWriteFEr() {
+      return writeFEr_;
+    }
+
     private void initFields() {
       dataStoreDirectory_ = "";
       applicationName_ = "";
@@ -869,6 +956,9 @@ public final class Proto {
       localPhonePrefix_ = "";
       securityLevelMapping_ = java.util.Collections.emptyList();
       accountName_ = "";
+      writeDevices_ = false;
+      writeNotes_ = false;
+      writeFEr_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -918,6 +1008,15 @@ public final class Proto {
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         output.writeBytes(12, getDeletedEntryCodeRangeBytes());
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        output.writeBool(13, writeDevices_);
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        output.writeBool(14, writeNotes_);
+      }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        output.writeBool(15, writeFEr_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -975,6 +1074,18 @@ public final class Proto {
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(12, getDeletedEntryCodeRangeBytes());
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(13, writeDevices_);
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(14, writeNotes_);
+      }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(15, writeFEr_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1122,6 +1233,12 @@ public final class Proto {
         }
         accountName_ = "";
         bitField0_ = (bitField0_ & ~0x00000800);
+        writeDevices_ = false;
+        bitField0_ = (bitField0_ & ~0x00001000);
+        writeNotes_ = false;
+        bitField0_ = (bitField0_ & ~0x00002000);
+        writeFEr_ = false;
+        bitField0_ = (bitField0_ & ~0x00004000);
         return this;
       }
 
@@ -1203,6 +1320,18 @@ public final class Proto {
           to_bitField0_ |= 0x00000400;
         }
         result.accountName_ = accountName_;
+        if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
+          to_bitField0_ |= 0x00000800;
+        }
+        result.writeDevices_ = writeDevices_;
+        if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
+          to_bitField0_ |= 0x00001000;
+        }
+        result.writeNotes_ = writeNotes_;
+        if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
+          to_bitField0_ |= 0x00002000;
+        }
+        result.writeFEr_ = writeFEr_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1299,6 +1428,15 @@ public final class Proto {
           bitField0_ |= 0x00000800;
           accountName_ = other.accountName_;
           onChanged();
+        }
+        if (other.hasWriteDevices()) {
+          setWriteDevices(other.getWriteDevices());
+        }
+        if (other.hasWriteNotes()) {
+          setWriteNotes(other.getWriteNotes());
+        }
+        if (other.hasWriteFEr()) {
+          setWriteFEr(other.getWriteFEr());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2403,6 +2541,102 @@ public final class Proto {
         return this;
       }
 
+      private boolean writeDevices_ ;
+      /**
+       * <code>optional bool write_devices = 13;</code>
+       */
+      public boolean hasWriteDevices() {
+        return ((bitField0_ & 0x00001000) == 0x00001000);
+      }
+      /**
+       * <code>optional bool write_devices = 13;</code>
+       */
+      public boolean getWriteDevices() {
+        return writeDevices_;
+      }
+      /**
+       * <code>optional bool write_devices = 13;</code>
+       */
+      public Builder setWriteDevices(boolean value) {
+        bitField0_ |= 0x00001000;
+        writeDevices_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool write_devices = 13;</code>
+       */
+      public Builder clearWriteDevices() {
+        bitField0_ = (bitField0_ & ~0x00001000);
+        writeDevices_ = false;
+        onChanged();
+        return this;
+      }
+
+      private boolean writeNotes_ ;
+      /**
+       * <code>optional bool write_notes = 14;</code>
+       */
+      public boolean hasWriteNotes() {
+        return ((bitField0_ & 0x00002000) == 0x00002000);
+      }
+      /**
+       * <code>optional bool write_notes = 14;</code>
+       */
+      public boolean getWriteNotes() {
+        return writeNotes_;
+      }
+      /**
+       * <code>optional bool write_notes = 14;</code>
+       */
+      public Builder setWriteNotes(boolean value) {
+        bitField0_ |= 0x00002000;
+        writeNotes_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool write_notes = 14;</code>
+       */
+      public Builder clearWriteNotes() {
+        bitField0_ = (bitField0_ & ~0x00002000);
+        writeNotes_ = false;
+        onChanged();
+        return this;
+      }
+
+      private boolean writeFEr_ ;
+      /**
+       * <code>optional bool write_f_er = 15;</code>
+       */
+      public boolean hasWriteFEr() {
+        return ((bitField0_ & 0x00004000) == 0x00004000);
+      }
+      /**
+       * <code>optional bool write_f_er = 15;</code>
+       */
+      public boolean getWriteFEr() {
+        return writeFEr_;
+      }
+      /**
+       * <code>optional bool write_f_er = 15;</code>
+       */
+      public Builder setWriteFEr(boolean value) {
+        bitField0_ |= 0x00004000;
+        writeFEr_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool write_f_er = 15;</code>
+       */
+      public Builder clearWriteFEr() {
+        bitField0_ = (bitField0_ & ~0x00004000);
+        writeFEr_ = false;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:doorking.Config)
     }
 
@@ -2987,7 +3221,7 @@ public final class Proto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\016doorking.proto\022\010doorking\"\342\002\n\006Config\022\034\n" +
+      "\n\016doorking.proto\022\010doorking\"\242\003\n\006Config\022\034\n" +
       "\024data_store_directory\030\001 \001(\t\022\030\n\020applicati" +
       "on_name\030\002 \001(\t\022\021\n\tclient_id\030\003 \001(\t\022\025\n\rclie" +
       "nt_secret\030\004 \001(\t\022\027\n\017google_username\030\005 \001(\t" +
@@ -2996,9 +3230,11 @@ public final class Proto {
       "eleted_entry_code_range\030\014 \001(\t\022\032\n\022local_p" +
       "hone_prefix\030\t \001(\t\022>\n\026security_level_mapp" +
       "ing\030\n \003(\0132\036.doorking.SecurityLevelMappin" +
-      "g\022\024\n\014account_name\030\013 \001(\t\"G\n\024SecurityLevel",
-      "Mapping\022\027\n\017entry_code_type\030\001 \001(\t\022\026\n\016secu" +
-      "rity_level\030\002 \001(\005B\021\n\010doorkingB\005Proto"
+      "g\022\024\n\014account_name\030\013 \001(\t\022\025\n\rwrite_devices",
+      "\030\r \001(\010\022\023\n\013write_notes\030\016 \001(\010\022\022\n\nwrite_f_e" +
+      "r\030\017 \001(\010\"G\n\024SecurityLevelMapping\022\027\n\017entry" +
+      "_code_type\030\001 \001(\t\022\026\n\016security_level\030\002 \001(\005" +
+      "B\021\n\010doorkingB\005Proto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3017,7 +3253,7 @@ public final class Proto {
     internal_static_doorking_Config_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_doorking_Config_descriptor,
-        new java.lang.String[] { "DataStoreDirectory", "ApplicationName", "ClientId", "ClientSecret", "GoogleUsername", "SheetId", "TelephoneEntryRange", "EntryCodeRange", "DeletedEntryCodeRange", "LocalPhonePrefix", "SecurityLevelMapping", "AccountName", });
+        new java.lang.String[] { "DataStoreDirectory", "ApplicationName", "ClientId", "ClientSecret", "GoogleUsername", "SheetId", "TelephoneEntryRange", "EntryCodeRange", "DeletedEntryCodeRange", "LocalPhonePrefix", "SecurityLevelMapping", "AccountName", "WriteDevices", "WriteNotes", "WriteFEr", });
     internal_static_doorking_SecurityLevelMapping_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_doorking_SecurityLevelMapping_fieldAccessorTable = new

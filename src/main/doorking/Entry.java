@@ -40,6 +40,8 @@ public class Entry {
   private final Integer directoryNumber;
   private final Integer entryCode;
   private final Integer securityLevel;
+  private final String floor;
+  private final String er;
   private final List<String> deviceNumber;
   private final String notes;
   private final boolean isVendor;
@@ -51,6 +53,8 @@ public class Entry {
       Integer directoryNumber,
       Integer entryCode,
       Integer securityLevel,
+      String floor,
+      String er,
       List<String> deviceNumber,
       String notes,
       boolean isVendor) {
@@ -62,6 +66,8 @@ public class Entry {
     this.directoryNumber = directoryNumber;
     this.entryCode = entryCode;
     this.securityLevel = securityLevel;
+    this.floor = floor;
+    this.er = er;
     this.deviceNumber = deviceNumber;
     this.notes = notes;
     this.isVendor = isVendor;
@@ -70,7 +76,8 @@ public class Entry {
   @Override
   public int hashCode() {
     return Objects.hash(directoryDisplayName, isHidden, areaCode, phoneNumber,
-        directoryNumber, entryCode, securityLevel, deviceNumber, notes, isVendor);
+        directoryNumber, entryCode, securityLevel, floor, er,
+        deviceNumber, notes, isVendor);
   }
 
   @Override
@@ -86,6 +93,8 @@ public class Entry {
         && Objects.equals(this.directoryNumber, that.directoryNumber)
         && Objects.equals(this.entryCode, that.entryCode)
         && Objects.equals(this.securityLevel, that.securityLevel)
+        && Objects.equals(this.floor, that.floor)
+        && Objects.equals(this.er, that.er)
         && Objects.equals(this.deviceNumber, that.deviceNumber)
         && Objects.equals(this.notes, that.notes)
         && Objects.equals(this.isVendor, that.isVendor);
@@ -93,19 +102,34 @@ public class Entry {
 
   private static final Joiner COMMA_JOINER = Joiner.on(',');
 
-  private static final String HEADERS[] = { "Resident", "H", "AAC", "PHONE",
+  private static final String HEADERS_WITH_DEVICES[] = { "Resident", "H", "AAC", "PHONE",
       "DIR", "ENT", "SL", "DEVICE#", "NOTES", "VENDOR", "DEVICE2", "DEVICE3",
       "DEVICE4", "DEVICE5", "DEVICE6" };
 
-  public static String getHeaders() {
-    return COMMA_JOINER.join(HEADERS);
+  public static String getHeadersWithDevices() {
+    return COMMA_JOINER.join(HEADERS_WITH_DEVICES);
+  }
+
+  private static final String HEADERS_WITHOUT_DEVICES[] = { "Resident", "H", "AAC", "PHONE",
+      "DIR", "ENT", "SL", "DEVICE#", "FL", "ER", "NOTES", "VENDOR" };
+
+  public static String getHeadersWithoutDevices() {
+    return COMMA_JOINER.join(HEADERS_WITHOUT_DEVICES);
   }
 
   /** Used to write the CSV */
   @Override
   public String toString() {
     List<String> components = new ArrayList<>();
-    components.add(directoryDisplayName == null ? "" : directoryDisplayName);
+    if (directoryDisplayName == null) {
+      components.add("");
+    } else {
+      if (directoryDisplayName.indexOf(' ') > -1) {
+        components.add(String.format("\"%s\"", directoryDisplayName));
+      } else {
+        components.add(directoryDisplayName);
+      }
+    }
     components.add(isHidden ? "Y" : "N");
     components.add(areaCode == null ? "" : "1" + areaCode);
     components.add(phoneNumber == null ? "" : phoneNumber);
@@ -113,6 +137,12 @@ public class Entry {
     components.add(entryCode == null ? "" : String.format("%04d", entryCode));
     components.add(securityLevel == null ? "" : String.format("%02d", securityLevel));
     components.add(deviceNumber.size() < 1 ? "" : deviceNumber.get(0));
+    if (floor != null) {
+      components.add(floor);
+    }
+    if (er != null) {
+      components.add(er);
+    }
     components.add(notes == null ? "" : notes);
     components.add(isVendor ? "Y" : "N");
     for (int i = 1; i <= 6; i++) {
@@ -138,6 +168,8 @@ public class Entry {
     Integer entryCode;
     Integer securityLevel;
     List<String> deviceNumber = new ArrayList<>();
+    String floor;
+    String er;
     String notes;
     boolean isVendor;
 
@@ -205,6 +237,16 @@ public class Entry {
       return this;
     }
 
+    public Builder setFloor(String floor) {
+      this.floor = floor;
+      return this;
+    }
+
+    public Builder setER(String er) {
+      this.er = er;
+      return this;
+    }
+
     public Builder setNotes(String notes) {
       this.notes = notes;
       return this;
@@ -218,7 +260,7 @@ public class Entry {
     public Entry build() {
       Preconditions.checkState(deviceNumber.size() < 7);
       return new Entry(directoryDisplayName, isHidden, areaCode, phoneNumber,
-          directoryNumber, entryCode, securityLevel,
+          directoryNumber, entryCode, securityLevel, floor, er,
           ImmutableList.copyOf(deviceNumber), notes, isVendor);
     }
   }
